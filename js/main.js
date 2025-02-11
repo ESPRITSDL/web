@@ -113,10 +113,9 @@ $(window).on('load', function() {
         }
 
         if (result && result.orderId) {
-            // Hide form and show confirmation
-            $('#orderContainer').hide();
-            $('#orderId').text(result.orderId);
-            $('#orderConfirmation').fadeIn();
+            // Show Order Code in Input Field
+            $('#orderCode').val(result.orderId);
+            $('#orderCodeContainer').fadeIn(); // Make it visible
 
         } else {
             alert('Order submitted but response format is incorrect.');
@@ -126,6 +125,7 @@ $(window).on('load', function() {
         alert('Error submitting order: ' + error.message);
     }
 });
+
 
 
 
