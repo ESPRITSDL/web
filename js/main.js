@@ -125,38 +125,7 @@ $(window).on('load', function() {
         alert('Error submitting order: ' + error.message);
     }
 });
-    $('#trackOrderForm').submit(async (e) => {
-        e.preventDefault();
-
-        const orderId = $('#trackOrderCode').val().trim();
-        if (!orderId) {
-            alert('Please enter a valid order code!');
-            return;
-        }
-
-        try {
-            const response = await fetch(`https://reiner.azurewebsites.net/api/orders?orderId=${orderId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error('Order not found or invalid order ID.');
-            }
-
-            const result = await response.json();
-            $('#orderStatus').val(result.status);
-            $('#orderStatusContainer').fadeIn(); // Show status field
-        } catch (error) {
-            alert(error.message);
-            $('#orderStatusContainer').hide(); // Hide status field if error
-        }
-    });
-
-
+    
 
 
 })(jQuery);
