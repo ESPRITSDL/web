@@ -72,57 +72,61 @@ $(window).on('load', function() {
 	    bottomSpacing: 60
 	});
 	$('#orderForm').submit(async (e) => {
-		e.preventDefault();
+    e.preventDefault();
 
-		const orderData = {
-			name: $('#name').val().trim(),
-			service: $('#service').val(),
-			price: $('#price').val(),
-			paymentMethod: $('#payment').val(),
-			email: $('#email').val(),
-			code: $('#code').val(),
-			description: $('#description').val().trim(), // ✅ Include description
-			status: 'Pending'
-		};
+    const orderData = {
+        name: $('#name').val().trim(),
+        service: $('#service').val(),
+        price: $('#price').val(),
+        paymentMethod: $('#payment').val(),
+        email: $('#email').val(),
+        code: $('#code').val(),
+        description: $('#description').val().trim(),
+        status: 'Pending'
+    };
 
-		try {
-    const response = await fetch('https://reiner.azurewebsites.net/api/orders', { // ✅ Fixed URL
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify(orderData)
-    });
+    try {
+        const response = await fetch('https://reiner.azurewebsites.net/api/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(orderData)
+        });
 
-    if (!response.ok) {
-        const errorText = await response.text(); // Get raw text response
-        throw new Error(`Server Error: ${response.status} - ${errorText}`);
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(`Server Error: ${response.status} - ${errorText}`);
+        }
+
+        let result;
+        const contentType = response.headers.get("content-type");
+
+        if (contentType && contentType.includes("application/json")) {
+            result = await response.json();
+        } else {
+            const textResult = await response.text();
+            console.warn("Server returned non-JSON response:", textResult);
+            alert(`Order submitted but server returned unexpected format: ${textResult}`);
+            return;
+        }
+
+        if (result && result.orderId) {
+            // Hide form and show confirmation
+            $('#orderContainer').hide();
+            $('#orderId').text(result.orderId);
+            $('#orderConfirmation').fadeIn();
+
+        } else {
+            alert('Order submitted but response format is incorrect.');
+        }
+    } catch (error) {
+        console.error('Fetch Error:', error);
+        alert('Error submitting order: ' + error.message);
     }
+});
 
-    let result;
-    const contentType = response.headers.get("content-type");
-
-    if (contentType && contentType.includes("application/json")) {
-        result = await response.json(); // ✅ Parse JSON only if it's JSON
-    } else {
-        const textResult = await response.text();
-        console.warn("Server returned non-JSON response:", textResult);
-        alert(`Order submitted but server returned unexpected format: ${textResult}`);
-        return;
-    }
-
-    if (result && result.orderId) {
-        alert('Order submitted successfully! Order ID: ' + result.orderId);
-    } else {
-        alert('Order submitted but response format is incorrect.');
-    }
-} catch (error) {
-    console.error('Fetch Error:', error);
-    alert('Error submitting order: ' + error.message);
-}
-
-	});
 
 
 })(jQuery);
