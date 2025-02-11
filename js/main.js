@@ -86,39 +86,42 @@ $(window).on('load', function() {
 		};
 
 		try {
-			const response = await fetch('https://reiner.azurewebsites.net/api/orders?', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json'
-				},
-				body: JSON.stringify(orderData)
-			});
+    const response = await fetch('https://reiner.azurewebsites.net/api/orders', { // ✅ Fixed URL
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(orderData)
+    });
 
-			if (!response.ok) {
-				const errorText = await response.text();
-				throw new Error(`Server Error: ${response.status} - ${errorText}`);
-			}
+    if (!response.ok) {
+        const errorText = await response.text(); // Get raw text response
+        throw new Error(`Server Error: ${response.status} - ${errorText}`);
+    }
 
-			let result;
-			try {
-  			  result = await response.json();
-			} catch (err) {
-  			 	 console.error("JSON Parsing Error:", err);
-  				  alert('Error: Server response is not valid JSON.');
-  			 	 return;
-			}
+    let result;
+    const contentType = response.headers.get("content-type");
 
-			if (result && result.orderId) {
-    				alert('Order submitted successfully! Order ID: ' + result.orderId);
-			} else {
-    				alert('Order submitted but response format is incorrect.');
-			}
+    if (contentType && contentType.includes("application/json")) {
+        result = await response.json(); // ✅ Parse JSON only if it's JSON
+    } else {
+        const textResult = await response.text();
+        console.warn("Server returned non-JSON response:", textResult);
+        alert(`Order submitted but server returned unexpected format: ${textResult}`);
+        return;
+    }
 
-		} catch (error) {
-			console.error('Fetch Error:', error);
-			alert('Error submitting order: ' + error.message);
-		}
+    if (result && result.orderId) {
+        alert('Order submitted successfully! Order ID: ' + result.orderId);
+    } else {
+        alert('Order submitted but response format is incorrect.');
+    }
+} catch (error) {
+    console.error('Fetch Error:', error);
+    alert('Error submitting order: ' + error.message);
+}
+
 	});
 
 
