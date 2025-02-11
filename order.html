@@ -50,7 +50,7 @@
     <div class="container">
         <div class="section-title text-white">Place Your Order</div>
 
-        <!-- Order Container to Hide Form on Success -->
+        <!-- Order Form -->
         <div id="orderContainer">
             <form id="orderForm">
                 <div class="form-group">
@@ -95,15 +95,17 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">Submit Order</button>
-            </form>
-        </div>
 
-        <!-- Order Confirmation Message -->
-        <div id="orderConfirmation" class="alert alert-success text-center mt-3" style="display: none;">
-            🎉 Order submitted successfully! Your Order ID is: <strong id="orderId"></strong>
+                <!-- Order Code Field (Hidden initially) -->
+                <div class="form-group mt-3" id="orderCodeContainer" style="display: none;">
+                    <label>Your Order Code</label>
+                    <input type="text" class="form-control" id="orderCode" readonly onclick="this.select()">
+                </div>
+            </form>
         </div>
     </div>
 </section>
+
 
 <!-- Footer section -->
 <footer class="footer-section">
