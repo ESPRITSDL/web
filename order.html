@@ -49,56 +49,62 @@
 <section class="order-section spad">
     <div class="container">
         <div class="section-title text-white">Place Your Order</div>
-        <form id="orderForm">
-            <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" class="form-control" id="name" required>
-            </div>
-            <div class="form-group">
-                <label>Service</label>
-                <select class="form-control" id="service" required>
-                    <option value="" disabled selected>Please select a service</option>
-                    <option value="Menu" data-price="50">Menu</option>
-                    <option value="Tache" data-price="80">Tache</option>
-                    <option value="Arduino" data-price="100">Arduino without components</option>
-                    <option value="Integration" data-price="variable">Integration - We will contact you</option>
-                    <option value="Test" data-price="40">Test - 40DT</option>
-                    <option value="Fixing" data-price="variable">Fixing Code - We will contact you</option>
-                </select>
-                <small id="price-info" class="text-warning"></small>
-            </div>
-            <div class="form-group">
-                <label>Price</label>
-                <input type="text" class="form-control" id="price" readonly>
-            </div>
-            <div class="form-group">
-                <label>Payment Method</label>
-                <select class="form-control" id="payment" required>
-                    <option value="D17">D17</option>
-                    <option value="Cash">Cash</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label>Email</label>
-                <input type="email" class="form-control" id="email" required>
-            </div>
-            <div class="form-group">
-                <label>Code</label>
-                <input type="text" class="form-control" id="code">
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <textarea class="form-control" id="description" rows="3" placeholder="aya infomation mofida like tache name, theme ..."></textarea>
-            </div>
 
-            <button type="submit" class="btn btn-primary">Submit Order</button>
-        </form>
+        <!-- Order Container to Hide Form on Success -->
+        <div id="orderContainer">
+            <form id="orderForm">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" class="form-control" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Service</label>
+                    <select class="form-control" id="service" required>
+                        <option value="" disabled selected>Please select a service</option>
+                        <option value="Menu" data-price="50">Menu</option>
+                        <option value="Tache" data-price="80">Tache</option>
+                        <option value="Arduino" data-price="100">Arduino without components</option>
+                        <option value="Integration" data-price="variable">Integration - We will contact you</option>
+                        <option value="Test" data-price="40">Test - 40DT</option>
+                        <option value="Fixing" data-price="variable">Fixing Code - We will contact you</option>
+                    </select>
+                    <small id="price-info" class="text-warning"></small>
+                </div>
+                <div class="form-group">
+                    <label>Price</label>
+                    <input type="text" class="form-control" id="price" readonly>
+                </div>
+                <div class="form-group">
+                    <label>Payment Method</label>
+                    <select class="form-control" id="payment" required>
+                        <option value="D17">D17</option>
+                        <option value="Cash">Cash</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Code</label>
+                    <input type="text" class="form-control" id="code">
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea class="form-control" id="description" rows="3" placeholder="Provide additional information..."></textarea>
+                </div>
 
-    </div>
-    <div id="orderConfirmation" class="alert alert-success text-center mt-3" style="display: none;">
+                <button type="submit" class="btn btn-primary">Submit Order</button>
+            </form>
+        </div>
+
+        <!-- Order Confirmation Message -->
+        <div id="orderConfirmation" class="alert alert-success text-center mt-3" style="display: none;">
             🎉 Order submitted successfully! Your Order ID is: <strong id="orderId"></strong>
         </div>
+    </div>
 </section>
+
 <!-- Footer section -->
 <footer class="footer-section">
     <div class="container">
