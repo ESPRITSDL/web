@@ -100,8 +100,21 @@ $(window).on('load', function() {
 				throw new Error(`Server Error: ${response.status} - ${errorText}`);
 			}
 
-			const result = await response.json();
-			alert('Order submitted successfully! Order ID: ' + result.orderId);
+			let result;
+			try {
+  			  result = await response.json();
+			} catch (err) {
+  			 	 console.error("JSON Parsing Error:", err);
+  				  alert('Error: Server response is not valid JSON.');
+  			 	 return;
+			}
+
+			if (result && result.orderId) {
+    				alert('Order submitted successfully! Order ID: ' + result.orderId);
+			} else {
+    				alert('Order submitted but response format is incorrect.');
+			}
+
 		} catch (error) {
 			console.error('Fetch Error:', error);
 			alert('Error submitting order: ' + error.message);
