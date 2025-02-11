@@ -86,7 +86,7 @@ $(window).on('load', function() {
 		};
 
 		try {
-			const response = await fetch('https://reiner.azurewebsites.net/api/src?', {
+			const response = await fetch('https://reiner.azurewebsites.net/', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
